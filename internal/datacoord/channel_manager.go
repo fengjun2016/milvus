@@ -182,8 +182,8 @@ func (m *ChannelManagerImpl) Startup(ctx context.Context, legacyNodes, allNodes 
 func (m *ChannelManagerImpl) Close() {
 	if m.cancel != nil {
 		m.cancel()
-		m.wg.Wait()
 	}
+	m.wg.Wait()
 }
 
 func (m *ChannelManagerImpl) AddNode(nodeID UniqueID) error {
