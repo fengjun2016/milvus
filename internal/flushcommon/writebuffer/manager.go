@@ -75,13 +75,13 @@ func (m *bufferManager) Start() {
 }
 
 func (m *bufferManager) check() {
-	ticker := time.NewTimer(paramtable.Get().DataNodeCfg.MemoryCheckInterval.GetAsDuration(time.Millisecond))
-	defer ticker.Stop()
+	timer := time.NewTimer(paramtable.Get().DataNodeCfg.MemoryCheckInterval.GetAsDuration(time.Millisecond))
+	defer timer.Stop()
 	for {
 		select {
-		case <-ticker.C:
+		case <-timer.C:
 			m.memoryCheck()
-			ticker.Reset(paramtable.Get().DataNodeCfg.MemoryCheckInterval.GetAsDuration(time.Millisecond))
+			timer.Reset(paramtable.Get().DataNodeCfg.MemoryCheckInterval.GetAsDuration(time.Millisecond))
 		case <-m.ch.CloseCh():
 			log.Info("buffer manager memory check stopped")
 			return
