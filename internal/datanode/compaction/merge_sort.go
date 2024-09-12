@@ -90,6 +90,12 @@ func mergeSortMultipleSegments(ctx context.Context,
 		segmentReaders[i] = NewSegmentDeserializeReader(ctx, binlogPaths, binlogIO, pkField.GetFieldID())
 	}
 
+	defer func() {
+		for r := range segmentReaders {
+			r.Close()
+		}
+	}()
+
 	pq := make(PriorityQueue, 0)
 	heap.Init(&pq)
 
